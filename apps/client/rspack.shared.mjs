@@ -6,6 +6,11 @@
  */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import {
+  createStageTimingPlugin,
+  isStageTimingEnabled,
+} from './rspack.stage-timing.plugin.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isDev = process.env.NODE_ENV !== 'production';
@@ -15,9 +20,44 @@ export const srcDir = path.join(rootDir, 'src');
 export const distDir = path.join(rootDir, 'dist');
 
 /** apps/client 内源码引用统一 @src/…（与 tsconfig paths、Skill §导入 一致） */
+const srcDirResolved = path.resolve(srcDir);
+
 export const srcPathAlias = {
-  '@src': srcDir,
+  '@src': srcDirResolved,
+  '@src/': `${srcDirResolved}/`,
 };
+
+const resolveExtensions = ['.tsx', '.ts', '.jsx', '.js', '.json'];
+
+const resolveExtensionAlias = {
+  '.js': ['.ts', '.tsx', '.js'],
+};
+
+/**
+ * Rspack resolve：alias + tsconfig paths（避免 serve/watch 下 @src 未命中）
+ * @param {Record<string, string>} [extraAlias]
+ */
+/** 默认开启；设 RSPACK_STAGE_TIMING=0 关闭各阶段耗时日志 */
+export function createStageTimingPlugins() {
+  return isStageTimingEnabled() ? [createStageTimingPlugin()] : [];
+}
+
+export function createResolve(extraAlias = {}) {
+  return {
+    extensions: resolveExtensions,
+    extensionAlias: resolveExtensionAlias,
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: path.join(rootDir, 'tsconfig.json'),
+        extensions: resolveExtensions,
+      }),
+    ],
+    alias: {
+      ...srcPathAlias,
+      ...extraAlias,
+    },
+  };
+}
 
 /** Module Federation v2：宿主应用 */
 export const mfOptions = {

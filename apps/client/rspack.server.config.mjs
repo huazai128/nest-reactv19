@@ -10,7 +10,8 @@ import {
   distDir,
   rootDir,
   srcDir,
-  srcPathAlias,
+  createResolve,
+  createStageTimingPlugins,
 } from './rspack.shared.mjs';
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -57,17 +58,10 @@ export default {
     environment: { module: true },
   },
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
-  resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
-    extensionAlias: {
-      '.js': ['.ts', '.tsx', '.js'],
-    },
-    alias: {
-      ...srcPathAlias,
-      'demo_remote/Button': path.join(srcDir, 'stubs/remote-button.stub.tsx'),
-      'react-router-dom': 'react-router',
-    },
-  },
+  resolve: createResolve({
+    'demo_remote/Button': path.join(srcDir, 'stubs/remote-button.stub.tsx'),
+    'react-router-dom': 'react-router',
+  }),
   module: {
     rules: [
       {
@@ -80,6 +74,7 @@ export default {
     ],
   },
   plugins: [
+    ...createStageTimingPlugins(),
     new rspack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(
         isDev ? 'development' : 'production',

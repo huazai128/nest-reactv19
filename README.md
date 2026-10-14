@@ -77,18 +77,24 @@ ssr/
 - **MF**：`shared.treeShaking: true`（client 构建）
 - **MF + ESM**：client 侧保持 `output.module: false`；SSR bundle 为 **ESM `ssr.mjs`**
 - **CSS**：Lightning CSS（`builtin:lightningcss-loader` + 生产环境 `LightningCssMinimizerRspackPlugin`）
+- **构建耗时**：`rspack.stage-timing.plugin.mjs` 默认打印各阶段耗时（`[rspack:client]` / `[rspack:server]`）；关闭：`RSPACK_STAGE_TIMING=0`
+
+## 环境
+
+- **Node ≥ 22.22.0**（`package.json` `engines`）；可选在本目录 `fnm use` / `nvm use`（`.node-version` / `.nvmrc`），只影响当前终端。
+- **pnpm@9.15.0**（与 `packageManager` 一致）：本机已全局安装即可；未安装时可用 `npm i -g pnpm@9.15.0` 或 `corepack enable`（若你其它项目用 yarn 且不想动 corepack，则只装 pnpm 全局即可）。
 
 ## 快速开始
 
 ```bash
 pnpm install
-pnpm dev:client   # :3100 Rspack HMR + server bundle watch
-pnpm dev:server   # :3000 Nest 流式 SSR
-pnpm dev:remote   # 可选 :3101 MF remote
+pnpm dev:client   # :3100
+pnpm dev:server   # :3008
+pnpm dev:remote   # 可选 :3101
 ```
 
-- SPA：<http://localhost:3000/>、<http://localhost:3000/about>
-- MPA：<http://localhost:3000/landing>
+- SPA：<http://localhost:3008/>、<http://localhost:3008/about>
+- MPA：<http://localhost:3008/landing>
 
 ## 生产
 

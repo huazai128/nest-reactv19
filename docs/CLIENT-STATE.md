@@ -4,7 +4,7 @@
 
 `apps/client/src` 内模块互相引用使用 `@src/…`（配置见 `rspack.shared.mjs`、`tsconfig.json`）。共享类型使用 `@app/shared`。
 
-TypeScript 须使用 `moduleResolution: "bundler"`（见 `apps/client/tsconfig.json`），否则继承根 `NodeNext` 时 IDE/`tsc` 无法解析 `@src/*`。根目录已安装 `typescript` 并配置 `.vscode/settings.json` 使用工作区 TS；若仍红线，执行 **TypeScript: Restart TS Server**。
+TypeScript 须使用 `moduleResolution: "bundler"`（见 `apps/client/tsconfig.json`），否则继承根 `NodeNext` 时 IDE/`tsc` 无法解析 `@src/*`。Rspack 侧见 `rspack.shared.mjs` 的 `createResolve()`（`alias` + `TsconfigPathsPlugin`）。根目录已安装 `typescript` 并配置 `.vscode/settings.json` 使用工作区 TS；若仍红线，执行 **TypeScript: Restart TS Server**。若 dev 报 `Can't resolve '@src/…'`，在 `apps/client` 下重启 `pnpm dev`。
 
 ---
 

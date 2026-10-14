@@ -14,7 +14,8 @@ import {
   mfOptions,
   rootDir,
   srcDir,
-  srcPathAlias,
+  createResolve,
+  createStageTimingPlugins,
   swcLoader,
 } from './rspack.shared.mjs';
 
@@ -38,16 +39,9 @@ export default {
     module: false,
   },
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
-  resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
-    extensionAlias: {
-      '.js': ['.ts', '.tsx', '.js'],
-    },
-    alias: {
-      ...srcPathAlias,
-      'react-router-dom': 'react-router',
-    },
-  },
+  resolve: createResolve({
+    'react-router-dom': 'react-router',
+  }),
   module: {
     rules: [
       {
@@ -59,6 +53,7 @@ export default {
     ],
   },
   plugins: [
+    ...createStageTimingPlugins(),
     new ModuleFederationPlugin({
       ...mfOptions,
       shared: {

@@ -91,7 +91,7 @@ description: >-
 
 | 应用 | TS / 构建 |
 |------|-----------|
-| **client** | `tsconfig` `moduleResolution: bundler` + `paths`；Rspack `srcPathAlias`（`rspack.shared.mjs`） |
+| **client** | `tsconfig` `moduleResolution: bundler` + `paths`；Rspack `createResolve()`（`alias` + `TsconfigPathsPlugin`，`rspack.shared.mjs`） |
 | **server** | `tsconfig` `moduleResolution: bundler` + `paths` `@src/*`；**生产** `tsc` 后须跑 **`tsc-alias`**（见 `apps/server` `build` 脚本）；**开发** `tsx` 按 tsconfig 解析别名 |
 
 ESM 下 **server** 与 client store 入口 import 建议带 **`.js` 后缀**（指向 emit 后的模块 id）：`@src/stores/index.js`、`@src/health.controller.js`。
@@ -160,13 +160,18 @@ ESM 下 **server** 与 client store 入口 import 建议带 **`.js` 后缀**（�
    - **仅列与本轮对话相关的路径**；若全仓未提交很多，注明「以下为本轮建议纳入本次 commit」。
 3. **diff 统计**：`git diff --stat` **原文代码块贴出**（无已跟踪 diff 时写「无已跟踪文件 diff（均为新文件）」）。
 4. **变更说明（commit body  bullets）**：2～8 条中文，写清**做了什么**（可对齐文件列表，禁止空泛「更新代码」）。
-5. **可复制命令**：`git add` + `git commit` HEREDOC（body 与「变更说明」一致；HEREDOC 第一行 subject 与末尾「建议标题」相同）。
-6. **建议标题（本节最后一项）**：三级标题 `### 建议标题（单行复制）` + 代码块，见 §5.2，**一整行可复制**（例：`feat: server0.0.1-服务端源码统一@src别名并更新Skill`）。
+5. **可复制命令**（仍写在 `### 提交内容` 内）：`git add` + `git commit` HEREDOC（body 与「变更说明」一致；HEREDOC 第一行 subject 与 §5.1.2 标题相同）。
 
 | 字段 | 要求 |
 |------|------|
-| **顺序** | **禁止**把「建议标题」放在「提交内容」之前；标题必须在 Git 节**最末** |
 | **建议 git add** | 写在「提交内容」内，与文件表一致 |
+
+#### 5.1.2 建议标题（Git 节**最后一节**，单独三级标题）
+
+在 `### 提交内容` **全部写完后**，另起 **`### 建议标题（单行复制）`**（不得并入「提交内容」正文、不得放在其前面）：
+
+- 仅含一个 `text` 代码块，一整行 subject，格式见 §5.2（例：`feat: server0.0.1-服务端源码统一@src别名并更新Skill`）。
+- **`## Git 提交说明` 下最后一个三级标题必须是本节**；本节之后**只能**接 `## 变更摘要`（中间可有一条 `---`），禁止在标题后再补命令、表格或说明。
 
 **Git 节推荐排版（照抄结构）**
 
@@ -211,7 +216,7 @@ feat: client16.3.0-侧栏组织名称超长省略
 | 字段 | 要求 |
 |------|------|
 | **建议 commit 类型** | `feat` \| `fix` \| `docs` \| `refactor` \| `chore` \| `build` |
-| **禁止** | 只有标题、无文件列表、无 diff 统计、无 body bullets |
+| **禁止** | 只有标题、无文件列表、无 diff 统计、无 body bullets；**禁止**把 `### 建议标题` 放在 `### 提交内容` 之前或夹在提交内容中间 |
 
 **可复制 commit 模板（每次尽量给出）**
 

@@ -19,7 +19,7 @@ async function bootstrap() {
   } else {
     mountProdStatic(app);
   }
-  const port = Number(process.env.PORT) || 3000;
+  const port = Number(process.env.PORT) || 3008;
   await app.listen(port);
   console.log(`[server] http://localhost:${port}`);
 }
