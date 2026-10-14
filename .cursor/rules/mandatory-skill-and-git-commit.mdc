@@ -1,0 +1,37 @@
+---
+description: 强制 Skill；Git 提交说明须展示提交内容（文件列表+diff）与可复制 commit
+alwaysApply: true
+---
+
+# 强制 Skill + Git 提交说明（含提交内容）
+
+本仓库**每一次** Agent 回复都必须遵守（无例外，含纯问答）。
+
+## 1. 强制使用 Skill
+
+处理用户消息前 **Read**：
+
+`.cursor/skills/nest-reactv19-architecture/SKILL.md`
+
+## 2. 写回复前必跑 Git
+
+```bash
+git status -sb
+git status --short
+git diff --stat
+```
+
+## 3. 第一节固定：`## Git 提交说明`
+
+须包含（见 Skill §5.1.1），**顺序固定**：
+
+1. **`### 提交内容`** — 文件表 + **`git diff --stat` 原文** + **变更说明 bullets** + **可复制 `git add` / `git commit`**
+2. **`### 建议标题（单行复制）`** — 放在 Git 节**最后**，`feat: client16.3.0-中文说明` 格式（§5.2）
+
+禁止只给一行标题、不展示提交内容；禁止把标题放在「提交内容」之前。
+
+用户未明确要求时 **不要** 执行 `git commit`。
+
+## 4. 其余章节
+
+`变更摘要` → `代码备注` → `文档` → `排查指引` → `验证`（Skill §5）

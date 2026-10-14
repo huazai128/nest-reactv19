@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@src/*": ["./src/*"]
+    },
+    "types": ["react", "react-dom", "node"]
+  },
+  "include": ["src"]
+}

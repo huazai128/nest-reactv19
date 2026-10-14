@@ -1,0 +1,23 @@
+{
+  "name": "nest-reactv19",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "dev": "pnpm run --parallel dev:client dev:server",
+    "dev:client": "pnpm --filter @app/client dev",
+    "dev:remote": "pnpm --filter @app/remote-demo dev",
+    "dev:server": "pnpm --filter @app/server dev",
+    "build": "pnpm run build:client && pnpm run build:server",
+    "build:client": "pnpm --filter @app/client build",
+    "build:server": "pnpm --filter @app/server build",
+    "start": "pnpm --filter @app/server start:prod",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules
+dist
+.rspack-cache
+*.log
+.env
+.DS_Store
+coverage
+.turbo
