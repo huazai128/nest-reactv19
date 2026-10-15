@@ -8,6 +8,9 @@
 |------|------|
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 分层、管道、契约、**排查指引** |
 | [docs/CLIENT-STATE.md](docs/CLIENT-STATE.md) | Zustand：SSR 快照 vs UI store、颗粒化订阅 |
+| [docs/LOCAL-RUN.md](docs/LOCAL-RUN.md) | 本地端口、双进程开发（对齐开放平台 LOCAL_RUN_GUIDE） |
+| [docs/REFERENCE-OPEN-PLATFORM.md](docs/REFERENCE-OPEN-PLATFORM.md) | 与 mark-open-platform-preview 目录/能力对照 |
+| [docs/PACKAGES.md](docs/PACKAGES.md) | **`packages/` 目录作用**、`@app/shared` 契约与分工 |
 | [.cursor/skills/nest-reactv19-architecture/SKILL.md](.cursor/skills/nest-reactv19-architecture/SKILL.md) | **每次 AI 回复**须含 Git 提交说明 + 架构代码备注与文档标准 |
 | [AGENTS.md](AGENTS.md) | Cursor Agent 入口摘要 |
 | `.cursor/rules/mandatory-skill-and-git-commit.mdc` | **alwaysApply**：强制 Skill + 每条回复 Git 提交说明 |
@@ -21,7 +24,7 @@
 | `apps/server` | HTTP 入口；`middleware/` 处理横切能力；`ssr/render/` 通用渲染管道（Guard → Enricher → Strategy） |
 | `apps/client` | `pipeDocument` 流式 SSR、`main`（SPA）与 `landing`（MPA）双入口、MF v2 宿主 |
 | `apps/remote-demo` | 可选 MF 远程 |
-| `packages/shared` | `PAGE_ROUTES`、`matchPage`、`SsrPageState` |
+| [`packages/shared`](packages/shared/)（[`@app/shared`](docs/PACKAGES.md)） | 跨 client/server 的**纯契约**：路由表、SSR 状态（详见 [PACKAGES.md](docs/PACKAGES.md)） |
 
 ### 页面模式（`packages/shared/src/routing.ts`）
 
@@ -29,7 +32,7 @@
 |------|------|------|
 | **SPA** | 单入口 `main.js`，`react-router` 管理 `/`、`/about` 等 | `path: '/*'` |
 | **MPA** | 独立入口整页刷新 | `/landing` → `landing.js` |
-| **SPA 多路由** | 仍在 SPA 内用 `<Routes>` 声明子路由 | `SpaRoot.tsx` |
+| **SPA 多路由** | 路由表集中在 `routes/spa.routes.tsx` | `SpaRoot.tsx` 壳 |
 
 ### React Router v8 说明
 
@@ -88,9 +91,16 @@ ssr/
 
 ```bash
 pnpm install
+pnpm run-entry    # 选 main / landing / 全部，并启动 client+server（推荐）
+# 或
 pnpm dev:client   # :3100
 pnpm dev:server   # :3008
 pnpm dev:remote   # 可选 :3101
+```
+
+```bash
+pnpm format       # Prettier（见 .prettierrc）
+pnpm format:check
 ```
 
 - SPA：<http://localhost:3008/>、<http://localhost:3008/about>

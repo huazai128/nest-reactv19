@@ -1,6 +1,6 @@
 # 架构说明（nest-reactv19）
 
-面向排查与扩展的说明。运行命令见根目录 [README.md](../README.md)。  
+面向排查与扩展的说明。运行命令见 [LOCAL-RUN.md](./LOCAL-RUN.md)、[REFERENCE-OPEN-PLATFORM.md](./REFERENCE-OPEN-PLATFORM.md)。概览见 [README.md](../README.md)。  
 AI 或人工修改基础架构时请遵循 [.cursor/skills/nest-reactv19-architecture/SKILL.md](../.cursor/skills/nest-reactv19-architecture/SKILL.md)。  
 **所有架构文件须有 `@module` 头块注释（见 Skill §0）；无备注视为改动未完成。**  
 AI 协作：每次回复须含 **Git 提交说明**（见 Skill §5.1）、[AGENTS.md](../AGENTS.md)。
@@ -18,7 +18,8 @@ AI 协作：每次回复须含 **Git 提交说明**（见 Skill §5.1）、[AGEN
 
 | 包 | 职责 |
 |----|------|
-| `packages/shared` | `PAGE_ROUTES`、`matchPage`、`SsrPageState` / `SSR_STATE_KEY` |
+| `packages/*` | Workspace **共享库**（非可运行应用）；见 [PACKAGES.md](./PACKAGES.md) |
+| `packages/shared`（`@app/shared`） | `PAGE_ROUTES`、`matchPage`、`SsrPageState` / `SSR_STATE_KEY` |
 | `apps/client` | Rspack 构建、`pipeDocument`、SPA/MPA 入口、Zustand（见 [CLIENT-STATE.md](./CLIENT-STATE.md)） |
 | `apps/server` | 中间件 + 渲染管道 + 静态资源 |
 

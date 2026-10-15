@@ -102,7 +102,10 @@ ESM 下 **server** 与 client store 入口 import 建议带 **`.js` 后缀**（�
 |----------|----------|
 | 新中间件 / locals 约定 | `middleware.constants.ts` 注释 + `docs/ARCHITECTURE.md` §Middleware |
 | 新 Guard / Enricher / Strategy | `docs/ARCHITECTURE.md` §渲染管道 + `README.md` 扩展一节 |
-| 路由 / MPA 入口 / `PAGE_ROUTES` | `packages/shared` 注释 + `docs/ARCHITECTURE.md` §页面模型 |
+| 路由 / MPA 入口 / `PAGE_ROUTES` | `packages/shared` 注释 + `apps/client/src/routes/` + `docs/ARCHITECTURE.md` §页面模型 |
+| `packages/` 新增包或契约变更 | `docs/PACKAGES.md` + `packages/README.md` |
+| 对照 mark-open-platform-preview | `docs/REFERENCE-OPEN-PLATFORM.md`、本地运行 `docs/LOCAL-RUN.md` |
+| 选页开发 / Prettier | `pnpm run-entry`、`pnpm format`（根 `package.json`） |
 | Rspack / MF / 环境变量 | `README.md` 快速开始 + `docs/ARCHITECTURE.md` §构建 |
 | 破坏性契约（state 字段、端口） | `docs/ARCHITECTURE.md` §契约与变更记录（追加一行日期说明） |
 

@@ -18,18 +18,22 @@ import {
   createStageTimingPlugins,
   swcLoader,
 } from './rspack.shared.mjs';
+import { resolveDevClientEntries } from './scripts/entries.config.mjs';
 
 const isDev = process.env.NODE_ENV !== 'production';
+const clientEntries = isDev
+  ? resolveDevClientEntries()
+  : {
+      main: path.join(srcDir, 'entry.client.tsx'),
+      landing: path.join(srcDir, 'mpa/landing.client.tsx'),
+    };
 
 /** @type {import('@rspack/core').Configuration} */
 export default {
   name: 'client',
   context: rootDir,
   mode: isDev ? 'development' : 'production',
-  entry: {
-    main: path.join(srcDir, 'entry.client.tsx'),
-    landing: path.join(srcDir, 'mpa/landing.client.tsx'),
-  },
+  entry: clientEntries,
   output: {
     path: path.join(distDir, 'client'),
     filename: isDev ? '[name].js' : '[name].[contenthash:8].js',
@@ -69,12 +73,13 @@ export default {
       ),
       __SERVER__: JSON.stringify(false),
     }),
-    new rspack.HtmlRspackPlugin({
-      template: path.join(srcDir, 'index.html'),
-      inject: 'body',
-      scriptLoading: 'defer',
-      chunks: ['main'],
-    }),
+    clientEntries.main &&
+      new rspack.HtmlRspackPlugin({
+        template: path.join(srcDir, 'index.html'),
+        inject: 'body',
+        scriptLoading: 'defer',
+        chunks: ['main'],
+      }),
     // Rspack 2 无 ManifestPlugin；生产脚本路径由 AssetService 按 entry 前缀解析
   ].filter(Boolean),
   devServer: {
