@@ -1,5 +1,6 @@
 node_modules
 dist
+apps/client/src/styles/bundle.css
 .rspack-cache
 *.log
 .env

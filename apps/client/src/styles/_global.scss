@@ -1,0 +1,55 @@
+/* marki reset 默认 html/body overflow:hidden；SSR 演示页需可滚动 */
+html,
+body {
+  overflow: auto;
+  height: auto;
+  min-height: 100%;
+}
+
+:root {
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+.app {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.app-header nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.app-header a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.app-header a:hover {
+  text-decoration: underline;
+}
+
+.ssr-meta-toggle {
+  margin-top: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+}
+
+.ssr-meta,
+.remote-widget {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.remote-fallback {
+  color: #64748b;
+  font-size: 0.875rem;
+}

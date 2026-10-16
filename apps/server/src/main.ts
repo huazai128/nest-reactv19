@@ -7,8 +7,8 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@src/app.module.js';
-import { mountDevProxy } from '@src/middleware/dev-proxy/dev-proxy.middleware.js';
-import { mountProdStatic } from '@src/middleware/static/static.middleware.js';
+import { mountDevProxy } from '@src/middlewares/dev-proxy/dev-proxy.middleware.js';
+import { mountProdStatic } from '@src/middlewares/static/static.middleware.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

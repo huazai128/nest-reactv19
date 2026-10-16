@@ -32,7 +32,7 @@ nest-reactv19/
 | 模块 | 文件 | 谁在用 | 内容 |
 |------|------|--------|------|
 | 页面路由契约 | `src/routing.ts` | server `matchPage`、Guard；client SSR 选树 | `PAGE_ROUTES`、`matchPage`、`PageRouteDefinition` |
-| SSR 状态 | `src/index.ts` | `entry.server` 序列化；client `hydrateSsrFromWindow` | `SSR_STATE_KEY`、`SsrPageState`、`createInitialState` |
+| SSR 状态 | `src/ssr-state.ts`（经 `index` 导出） | `entries/main.server` 序列化；client `hydrateSsrFromWindow` | `SSR_STATE_KEY`、`SsrPageState`、`createInitialState` |
 | 服务端上下文 | `SsrServerContext` | Enricher 写入 `state.server` | 权限演示字段等 |
 
 ### 数据流（为何必须放 packages）
@@ -57,7 +57,7 @@ nest-reactv19/
 | `SsrPageState` 字段 | Zustand store、页面 UI |
 | `SSR_STATE_KEY` 常量 | `window` 读写实现 |
 
-**规则**：改 `PAGE_ROUTES` 或 `SsrPageState` 时，必须同时检查 server Enricher、client `entry.server.tsx` / stores，并跑 `pnpm typecheck`。
+**规则**：改 `PAGE_ROUTES` 或 `SsrPageState` 时，必须同时检查 server Enricher、client `entries/main.server.tsx` / stores，并跑 `pnpm typecheck`。
 
 ### 与 `apps/server` 的分工
 

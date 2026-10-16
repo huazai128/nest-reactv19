@@ -27,13 +27,13 @@ description: >-
 
 ## 1. 何时视为「基础架构变更」
 
-- `apps/server/src/middleware/**`
-- `apps/server/src/ssr/**`（含 `render/`、`assets/`）
-- `apps/client` 的 `entry.*`、`rspack*.mjs`、`routing/`、`render/`、`stores/`
+- `apps/server/src/middlewares/**`
+- `apps/server/src/modules/**`（含 `ssr/render/`、`ssr/assets/`）
+- `apps/client` 的 `entries/`、`rspack*.mjs`、`routes/`、`render/`、`stores/`
 - `packages/shared` 的路由契约、`SsrPageState`、`SSR_STATE_KEY`
 - 根 `package.json` / workspace 脚本 / Node 引擎要求
 
-纯页面组件（`pages/`、`mpa/*` 展示）无管道契约变化时，可只改 UI，但仍建议更新相关 README 小节（若行为对用户可见）。
+纯页面组件（`pages/*` 展示）无管道契约变化时，可只改 UI，但仍建议更新相关 README 小节（若行为对用户可见）。
 
 ## 2. 代码备注标准（便于排查）— **强制**
 
@@ -82,8 +82,8 @@ description: >-
 
 | 范围 | 写法 | 示例 |
 |------|------|------|
-| `apps/client/src/**` 内部互相引用 | **`@src/…`** | `import { HomePage } from '@src/pages/HomePage'` |
-| `apps/server/src/**` 内部互相引用 | **`@src/…` + `.js` 后缀** | `import { SsrModule } from '@src/ssr/ssr.module.js'` |
+| `apps/client/src/**` 内部互相引用 | **`@src/…`** | `import { HomePage } from '@src/pages/home/HomePage'` |
+| `apps/server/src/**` 内部互相引用 | **`@src/…` + `.js` 后缀** | `import { SsrModule } from '@src/modules/ssr/ssr.module.js'` |
 | monorepo 共享契约 | **`@app/shared`** | `import { matchPage } from '@app/shared'` |
 | npm 依赖 | 包名 | `import { Link } from 'react-router'` |
 
@@ -94,7 +94,7 @@ description: >-
 | **client** | `tsconfig` `moduleResolution: bundler` + `paths`；Rspack `createResolve()`（`alias` + `TsconfigPathsPlugin`，`rspack.shared.mjs`） |
 | **server** | `tsconfig` `moduleResolution: bundler` + `paths` `@src/*`；**生产** `tsc` 后须跑 **`tsc-alias`**（见 `apps/server` `build` 脚本）；**开发** `tsx` 按 tsconfig 解析别名 |
 
-ESM 下 **server** 与 client store 入口 import 建议带 **`.js` 后缀**（指向 emit 后的模块 id）：`@src/stores/index.js`、`@src/health.controller.js`。
+ESM 下 **server** 与 client store 入口 import 建议带 **`.js` 后缀**（指向 emit 后的模块 id）：`@src/modules/health/health.controller.js`、`@src/stores/index.js`。
 
 ## 3. 文档标准（必须同步）
 
@@ -187,7 +187,7 @@ ESM 下 **server** 与 client store 入口 import 建议带 **`.js` 后缀**（�
 
 | 状态 | 路径 |
 |------|------|
-| M | apps/client/src/routing/SpaRoot.tsx |
+| M | apps/client/src/routes/SpaRoot.tsx |
 | M | apps/client/tsconfig.json |
 
 **diff 统计**：
@@ -278,7 +278,7 @@ feat: client16.3.0-侧栏组织名称超长省略
 - [ ] 未 touched 但逻辑依赖已变的外部文件，注释已交叉更新
 - [ ] Guard/Enricher/Middleware 含触发条件与副作用说明
 - [ ] middleware 与 ssr/render 职责未混写
-- [ ] packages/shared 契约变更已反映到 client entry.server 与 types
+- [ ] packages/shared 契约变更已反映到 client entries/main.server 与 types
 - [ ] docs/ARCHITECTURE.md 已更新
 - [ ] README.md 必要时已更新（命令、端口、演示头）
 - [ ] 回复含「排查指引」小节

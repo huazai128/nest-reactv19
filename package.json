@@ -16,9 +16,9 @@
     "start": "pnpm --filter @app/server start:prod",
     "typecheck": "pnpm -r typecheck",
     "run-entry": "node scripts/run-entry.mjs",
-    "format": "prettier --write \"apps/client/src/**/*.{ts,tsx,css}\" \"apps/server/src/**/*.ts\" \"packages/shared/src/**/*.ts\" \"scripts/**/*.{js,mjs}\" \"apps/client/scripts/**/*.{js,mjs}\" \"apps/client/rspack*.mjs\" \"docs/**/*.md\"",
-    "format:check": "prettier --check \"apps/client/src/**/*.{ts,tsx,css}\" \"apps/server/src/**/*.ts\" \"packages/shared/src/**/*.ts\" \"scripts/**/*.{js,mjs}\" \"apps/client/scripts/**/*.{js,mjs}\" \"apps/client/rspack*.mjs\" \"docs/**/*.md\"",
-    "format:client": "prettier --write \"apps/client/src/**/*.{ts,tsx,css}\" \"apps/client/scripts/**/*.{js,mjs}\" \"apps/client/rspack*.mjs\""
+    "format": "prettier --write \"apps/client/src/**/*.{ts,tsx,css,scss}\" \"apps/server/src/**/*.ts\" \"packages/shared/src/**/*.ts\" \"scripts/**/*.{js,mjs}\" \"apps/client/scripts/**/*.{js,mjs}\" \"apps/client/rspack*.mjs\" \"docs/**/*.md\"",
+    "format:check": "prettier --check \"apps/client/src/**/*.{ts,tsx,css,scss}\" \"apps/server/src/**/*.ts\" \"packages/shared/src/**/*.ts\" \"scripts/**/*.{js,mjs}\" \"apps/client/scripts/**/*.{js,mjs}\" \"apps/client/rspack*.mjs\" \"docs/**/*.md\"",
+    "format:client": "prettier --write \"apps/client/src/**/*.{ts,tsx,css,scss}\" \"apps/client/scripts/**/*.{js,mjs}\" \"apps/client/rspack*.mjs\""
   },
   "packageManager": "pnpm@9.15.0",
   "devDependencies": {

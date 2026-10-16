@@ -2,7 +2,7 @@
  * @module client/rspack.shared
  * @layer client-bundle
  * @responsibility MF v2、SWC/React Compiler、Lightning CSS 规则（createCssRule）
- * @troubleshoot MF 共享版本冲突 → shared.requiredVersion；Compiler 报错 → REACT_COMPILER=0
+ * @troubleshoot MF 共享版本冲突 → shared.requiredVersion；样式 → scripts/compile-styles.mjs 生成 bundle.css
  */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -27,7 +27,7 @@ export const srcPathAlias = {
   '@src/': `${srcDirResolved}/`,
 };
 
-const resolveExtensions = ['.tsx', '.ts', '.jsx', '.js', '.json'];
+const resolveExtensions = ['.tsx', '.ts', '.jsx', '.js', '.json', '.scss', '.css'];
 
 const resolveExtensionAlias = {
   '.js': ['.ts', '.tsx', '.js'],

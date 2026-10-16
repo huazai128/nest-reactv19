@@ -24,8 +24,8 @@ const isDev = process.env.NODE_ENV !== 'production';
 const clientEntries = isDev
   ? resolveDevClientEntries()
   : {
-      main: path.join(srcDir, 'entry.client.tsx'),
-      landing: path.join(srcDir, 'mpa/landing.client.tsx'),
+      main: path.join(srcDir, 'entries/main.client.tsx'),
+      landing: path.join(srcDir, 'entries/landing.client.tsx'),
     };
 
 /** @type {import('@rspack/core').Configuration} */
@@ -48,12 +48,12 @@ export default {
   }),
   module: {
     rules: [
+      createCssRule({ minify: !isDev }),
       {
         test: /\.[jt]sx?$/,
         exclude: /node_modules/,
         use: swcLoader,
       },
-      createCssRule({ minify: !isDev }),
     ],
   },
   plugins: [

@@ -9,9 +9,9 @@ AI 协作：每次回复须含 **Git 提交说明**（见 Skill §5.1）、[AGEN
 
 ```
 浏览器 ──► Nest (apps/server)
-              ├── middleware/     横切：鉴权快照、MF 预加载（不写 React）
-              ├── ssr.controller    HTTP 入口
-              └── ssr/render/       Guard → Enricher → Strategy → ssr.mjs
+              ├── middlewares/    横切：鉴权快照、MF 预加载（不写 React）
+              ├── modules/ssr/    控制器 + render 管道 → ssr.mjs
+              └── modules/health/  API 探针
                         ▲
                         └── apps/client dist/server/ssr.mjs（流式 React）
 ```
@@ -25,7 +25,7 @@ AI 协作：每次回复须含 **Git 提交说明**（见 Skill §5.1）、[AGEN
 
 ## 2. Middleware 层
 
-路径：`apps/server/src/middleware/`
+路径：`apps/server/src/middlewares/`（`MiddlewareModule` 由 `SsrModule` 引入）
 
 | 组件 | 作用 | locals / 头 |
 |------|------|-------------|
@@ -38,7 +38,7 @@ AI 协作：每次回复须含 **Git 提交说明**（见 Skill §5.1）、[AGEN
 - 无预加载 link：dev 时 Rspack `:3100` 是否启动；看响应头 `x-mf-preload-ready`
 - 权限始终 guest：是否传 `x-demo-role: user|admin`
 
-## 3. 渲染管道（ssr/render）
+## 3. 渲染管道（modules/ssr/render）
 
 入口：`PageRenderService.renderDocument`
 
@@ -80,7 +80,7 @@ Enricher：
 
 ## 5. 流式 SSR 契约
 
-客户端 `pipeDocument(url, writable, meta)`（`apps/client/src/entry.server.tsx`）：
+客户端 `pipeDocument(url, writable, meta)`（`apps/client/src/entries/main.server.tsx`）：
 
 | 字段 | 来源 |
 |------|------|
@@ -97,6 +97,18 @@ Enricher：
 - **样式**：`builtin:lightningcss-loader`（`createCssRule`）；生产 client 叠加 `LightningCssMinimizerRspackPlugin`；`browserTargets` / `browserslist` 在 `rspack.shared.mjs`
 
 ## 7. 变更记录
+
+### 2026-10-15 — server 源码目录对齐 marki-info
+
+- **动机**：功能模块进 `modules/` 聚合；HTTP 横切统一 `middlewares/` 命名
+- **影响**：`ssr/` → `modules/ssr/`；`middleware/` → `middlewares/`；`health` → `modules/health/`；`AppModule` 经 `modules/index.ts` 注册
+- **排查**： [DIRECTORY-STRUCTURE.md](./DIRECTORY-STRUCTURE.md) §server
+
+### 2026-10-15 — client 源码目录整理
+
+- **动机**：入口、路由、页面、MF 占位职责分离，便于扩展 MPA/SPA
+- **影响**：`entry.*` → `entries/`；`routing/` → `routes/`；`mpa/` 页面 → `pages/landing/`；MF stub → `mf/stubs/`
+- **排查**： [DIRECTORY-STRUCTURE.md](./DIRECTORY-STRUCTURE.md)；Rspack entry 路径见 `scripts/entries.config.mjs`
 
 ### 2026-10-14 — Nest 默认端口 3008
 

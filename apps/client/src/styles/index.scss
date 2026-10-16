@@ -1,0 +1,5 @@
+// 全局样式入口（marki-info：flex + common；并纳入 reset + 演示页 _global）
+@use 'reset';
+@use 'flex';
+@use 'common';
+@use 'global';

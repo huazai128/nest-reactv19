@@ -45,7 +45,7 @@ export default {
   mode: isDev ? 'development' : 'production',
   target: 'node',
   entry: {
-    ssr: path.join(srcDir, 'entry.server.tsx'),
+    ssr: path.join(srcDir, 'entries/main.server.tsx'),
   },
   output: {
     path: path.join(distDir, 'server'),
@@ -59,7 +59,7 @@ export default {
   },
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
   resolve: createResolve({
-    'demo_remote/Button': path.join(srcDir, 'stubs/remote-button.stub.tsx'),
+    'demo_remote/Button': path.join(srcDir, 'mf/stubs/remote-button.stub.tsx'),
     'react-router-dom': 'react-router',
   }),
   module: {

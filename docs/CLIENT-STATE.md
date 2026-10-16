@@ -22,7 +22,7 @@ SSR 与 UI **分 store**，避免「点一下按钮 → 整页重读 SSR JSON」
 ## 水合顺序
 
 ```
-entry.client / landing.client
+entries/main.client / entries/landing.client
   → hydrateSsrFromWindow()   // 读 window，写入 ssrStore，删除 window 上的 key
   → hydrateRoot(…)           // React 树内用 selector hooks
 ```

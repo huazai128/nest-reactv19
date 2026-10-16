@@ -23,5 +23,6 @@ function run(cmd, args, label) {
   return child;
 }
 
+run('node', ['scripts/compile-styles.mjs', '--watch'], 'styles');
 run('rspack', ['build', '-c', 'rspack.server.config.mjs', '--watch'], 'server');
 run('rspack', ['serve', '-c', 'rspack.client.config.mjs'], 'client');

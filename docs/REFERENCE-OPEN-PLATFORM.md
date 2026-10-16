@@ -11,12 +11,12 @@
 | `server/` | `apps/server/` | Nest HTTP、SSR 入口、静态/代理 |
 | `src/` | `apps/client/src/` | React 页面、组件、路由 |
 | `src/routes/` | `apps/client/src/routes/` | 路由表、导航配置（SPA） |
-| `src/pages/` | `apps/client/src/pages/`、`mpa/` | 页面；MPA 独立 entry |
+| `src/pages/` | `apps/client/src/pages/<route>/` | 页面；MPA 独立 entry 在 `entries/` |
 | `src/components/` | `apps/client/src/components/` | 可复用 UI |
 | `src/hooks/` | `apps/client/src/hooks/` | 客户端 hooks（按需扩展） |
 | `src/constants/` | `apps/client/src/constants/` | 布局、端口等常量 |
 | `src/stores/` | `apps/client/src/stores/` | 状态（本仓库 Zustand 分层见 CLIENT-STATE） |
-| `src/styles/` | `apps/client/src/styles/` | 全局样式 |
+| `src/styles/`（flex/common/reset） | `apps/client/src/styles/` | 入口 `index.scss`；Rspack `createScssRule` |
 | `emp-config.js` / `webpack` | `apps/client/rspack.*.mjs` | 构建与 MF |
 | `packages/shared`（无） | `packages/shared/` | 路由契约、`SsrPageState`（见 [PACKAGES.md](./PACKAGES.md)） |
 | `LOCAL_RUN_GUIDE.md` | [LOCAL-RUN.md](./LOCAL-RUN.md) | 本地端口与启动顺序 |
@@ -39,7 +39,7 @@
 ## 扩展新页面（对齐参考项目习惯）
 
 1. **SPA 子路由**：改 `apps/client/src/routes/spa.routes.tsx`，页面放 `pages/`。
-2. **MPA**：`PAGE_ROUTES` + `mpa/*.client.tsx` + `rspack.client.config.mjs` `entry`。
+2. **MPA**：`PAGE_ROUTES` + `entries/*.client.tsx` + `entries.config.mjs` / `rspack.client.config.mjs` `entry`。
 3. **服务端**：一般只改 `packages/shared` 路由契约；权限加 Guard。
 
 ## 本地路径

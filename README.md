@@ -47,26 +47,24 @@ Rspack 中提供别名 `react-router-dom` → `react-router`，便于迁移旧�
 
 ### 流式 SSR
 
-`entry.server.tsx` 导出 `pipeDocument(url, writable, meta)`，Nest `PageRenderService` + `StreamDocumentStrategy` 将响应设为 chunked 并 pipe 到客户端。
+`entries/main.server.tsx` 导出 `pipeDocument(url, writable, meta)`，Nest `PageRenderService` + `StreamDocumentStrategy` 将响应设为 chunked 并 pipe 到客户端。
 
 ### Node 分层（`apps/server`）
 
+布局参考 marki-info `server/`：`modules/` 聚合功能模块，`middlewares/` 放 HTTP 横切。详见 [docs/DIRECTORY-STRUCTURE.md](docs/DIRECTORY-STRUCTURE.md)。
+
 ```
-middleware/          # 仅 HTTP 横切：鉴权上下文、MF 预加载、静态资源/dev 代理
-  request-context/   # 解析 x-demo-role → res.locals.renderAuth
-  mf-preload/        # manifest → res.locals.mfPreloadTags
-ssr/
-  ssr.controller.ts  # 薄控制器
-  render/
-    page-render.service.ts   # 编排 Guard → Enricher → Strategy
-    guards/                  # 权限 / 业务准入（可增删）
-    enrichers/               # head、脚本、__SSR_STATE__.server
-    strategies/              # 流式 React SSR（可换 JSON/缓存策略）
-    renderer/                # 加载 client ssr.mjs
-  assets/                    # 按 entry 解析脚本
+modules/
+  index.ts           # AppModule.imports
+  health/            # GET /api/health
+  ssr/               # 页面 SSR 管道
+    ssr.controller.ts
+    render/          # Guard → Enricher → Strategy → ssr.mjs
+    assets/
+middlewares/         # RequestContext、MF preload；main.ts 另挂 dev 代理 / 生产静态
 ```
 
-扩展新业务：实现 `RenderGuard` 或 `RenderEnricher` 并在 `ssr.module.ts` 注册到 `RENDER_GUARDS` / `RENDER_ENRICHERS`。
+扩展新业务：实现 `RenderGuard` 或 `RenderEnricher` 并在 `modules/ssr/ssr.module.ts` 注册到 `RENDER_GUARDS` / `RENDER_ENRICHERS`。
 
 演示权限：`/about` 需 `about:read`，请求头 `x-demo-role: user` 或 `admin`。
 
@@ -116,6 +114,6 @@ NODE_ENV=production pnpm start
 ## 扩展新页面
 
 1. 在 `PAGE_ROUTES` 增加 MPA 或调整 SPA 回落规则
-2. MPA：新增 `mpa/*.client.tsx` 并在 `rspack.client.config.mjs` `entry` 注册
-3. SPA 子路由：在 `SpaRoot.tsx` 增加 `<Route>`
+2. MPA：在 `pages/<name>/` 写页面，新增 `entries/<name>.client.tsx` 并在 `scripts/entries.config.mjs` / `rspack.client.config.mjs` 注册
+3. SPA 子路由：在 `routes/spa.routes.tsx` 增加路由，页面放 `pages/<name>/`
 4. 服务端无需改路由逻辑（自动 `matchPage` + 对应 script entry）

@@ -12,8 +12,8 @@ export const srcDir = path.join(clientRoot, 'src');
 
 /** @type {Record<string, string>} */
 export const CLIENT_ENTRIES = {
-  main: path.join(srcDir, 'entry.client.tsx'),
-  landing: path.join(srcDir, 'mpa/landing.client.tsx'),
+  main: path.join(srcDir, 'entries/main.client.tsx'),
+  landing: path.join(srcDir, 'entries/landing.client.tsx'),
 };
 
 /** run-entry 菜单（与 packages/shared PAGE_ROUTES.clientEntry 对齐） */

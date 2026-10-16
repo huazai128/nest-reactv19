@@ -6,8 +6,8 @@
  */
 import { StaticRouter } from 'react-router';
 import type { PageRouteDefinition } from '@app/shared';
-import { SpaRoot } from '@src/routing/SpaRoot';
-import { LandingPage } from '@src/mpa/LandingPage';
+import { LandingPage } from '@src/pages/landing/LandingPage';
+import { SpaRoot } from '@src/routes/SpaRoot';
 
 export function createPageTree(url: string, page: PageRouteDefinition) {
   const pathname = url.split('?')[0] ?? '/';
