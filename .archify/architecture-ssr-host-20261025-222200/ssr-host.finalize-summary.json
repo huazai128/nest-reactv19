@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/architecture-ssr-host-20261025-222200/candidate.json",
+    "sha256": "039d2a474ca7a63a28a103aac9d137b8156c3e8c9aa8e9ecd10b82c7cf6e60fc",
+    "bytes": 10156
+  },
+  "artifact": {
+    "path": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/architecture-ssr-host-20261025-222200/ssr-host.html",
+    "sha256": "f6ae07b9c42d98ba62afb06de41813c7e6d0fcd27a55385c00909cef9904d4c1",
+    "bytes": 847285
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "fail"
+  },
+  "failedStage": "browser-check",
+  "diagnostics": [
+    {
+      "code": "viewer/browser-check-runtime",
+      "severity": "error",
+      "message": "browser-check could not complete its Chrome inspection.",
+      "subject": {
+        "artifact": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/architecture-ssr-host-20261025-222200/ssr-host.html"
+      },
+      "evidence": {
+        "reason": "Chrome DevTools read pipe failed: stream ended\nChrome process: still running.\nChrome stderr:\n[60033:1750542:1025/222357.863627:ERROR:chrome/browser/chrome_browser_main.cc:1298] The use of Rosetta to run the x64 version of Chromium on Arm is neither tested nor maintained, and unexpected behavior will likely result. Please check that all tools that spawn Chromium are Arm-native.\nassertion failed [inst.has_value()]: failed to decode instruction: 0x0\n(StateRecovery.cpp:355 determine_state_recovery_action_forward_branches)\nChrome transport: Node v24.14.0, libuv 1.51.0, darwin; pid=60033, exitCode=null, signalCode=null.\nChrome read pipe: readable=false, ended=true, destroyed=false, receivedBytes=0, messages=0, bufferedBytes=0.\nChrome write pipe: writable=true, ended=false, destroyed=false, completedWrites=1, writtenBytes=50, bufferedBytes=0."
+      },
+      "supportedFixes": [
+        "resolve the reported Chrome inspection error, then rerun browser-check"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 1,
+    "shown": 1,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/architecture-ssr-host-20261025-222200/ssr-host.finalize.json",
+    "summaryReceipt": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/architecture-ssr-host-20261025-222200/ssr-host.finalize-summary.json",
+    "browserCheckReceipt": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/architecture-ssr-host-20261025-222200/ssr-host.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-24T13:40:26.838Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 9024,
+  "browserCheck": {
+    "requested": true,
+    "ran": false
+  }
+}

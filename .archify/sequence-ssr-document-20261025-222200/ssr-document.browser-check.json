@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "browser-check",
+  "evidenceKind": "automated-browser",
+  "status": "fail",
+  "visualReview": "not-requested",
+  "provenance": "current",
+  "deliveryReceiptId": "d8135fb6-ca77-419c-99e0-92c26d984c17",
+  "artifact": {
+    "path": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/sequence-ssr-document-20261025-222200/ssr-document.html",
+    "sha256": "c9454d177b9d7f2d648a520e3062046c40b11857d48606fec6cffe66128c6bc5",
+    "bytes": 824532
+  },
+  "state": {
+    "detail": "read",
+    "motion": "still"
+  },
+  "chrome": {
+    "status": "available",
+    "executable": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+  },
+  "diagnostics": [
+    {
+      "code": "viewer/browser-check-runtime",
+      "severity": "error",
+      "message": "browser-check could not complete its Chrome inspection.",
+      "subject": {
+        "artifact": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/sequence-ssr-document-20261025-222200/ssr-document.html"
+      },
+      "evidence": {
+        "reason": "Chrome DevTools read pipe failed: stream ended\nChrome process: still running.\nChrome stderr:\n[61368:1753012:1025/222438.740881:ERROR:chrome/browser/chrome_browser_main.cc:1298] The use of Rosetta to run the x64 version of Chromium on Arm is neither tested nor maintained, and unexpected behavior will likely result. Please check that all tools that spawn Chromium are Arm-native.\nassertion failed [inst.has_value()]: failed to decode instruction: 0x0\n(StateRecovery.cpp:355 determine_state_recovery_action_forward_branches)\nChrome transport: Node v24.14.0, libuv 1.51.0, darwin; pid=61368, exitCode=null, signalCode=null.\nChrome read pipe: readable=false, ended=true, destroyed=false, receivedBytes=0, messages=0, bufferedBytes=0.\nChrome write pipe: writable=true, ended=false, destroyed=false, completedWrites=1, writtenBytes=50, bufferedBytes=0."
+      },
+      "supportedFixes": [
+        "resolve the reported Chrome inspection error, then rerun browser-check"
+      ]
+    }
+  ],
+  "containment": {
+    "status": "fail",
+    "policy": "fit-or-reader-declared-readable-vertical-scroll",
+    "viewports": []
+  },
+  "themeStates": {
+    "status": "fail",
+    "viewports": []
+  },
+  "readability": {
+    "status": "fail",
+    "minimumProjectedNodeTextPx": 6,
+    "viewports": []
+  },
+  "viewerChrome": {
+    "status": "fail",
+    "viewports": []
+  },
+  "captures": {
+    "status": "not-requested",
+    "screenshots": [],
+    "contactSheet": null
+  },
+  "sidecars": {
+    "receipt": "ssr-document.browser-check.json",
+    "files": []
+  },
+  "error": "Chrome DevTools read pipe failed: stream ended\nChrome process: still running.\nChrome stderr:\n[61368:1753012:1025/222438.740881:ERROR:chrome/browser/chrome_browser_main.cc:1298] The use of Rosetta to run the x64 version of Chromium on Arm is neither tested nor maintained, and unexpected behavior will likely result. Please check that all tools that spawn Chromium are Arm-native.\nassertion failed [inst.has_value()]: failed to decode instruction: 0x0\n(StateRecovery.cpp:355 determine_state_recovery_action_forward_branches)\nChrome transport: Node v24.14.0, libuv 1.51.0, darwin; pid=61368, exitCode=null, signalCode=null.\nChrome read pipe: readable=false, ended=true, destroyed=false, receivedBytes=0, messages=0, bufferedBytes=0.\nChrome write pipe: writable=true, ended=false, destroyed=false, completedWrites=1, writtenBytes=50, bufferedBytes=0."
+}

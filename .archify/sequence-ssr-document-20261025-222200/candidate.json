@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "GET 页面流式 SSR 时序",
+    "locale": "zh-CN",
+    "output": ".archify/sequence-ssr-document-20261025-222200/ssr-document.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/huazai128/nest-reactv19.git",
+      "provider": "github",
+      "revision": "8a2b73ce9498d1a831f4e017d417f0380bde5b24"
+    }
+  },
+  "participants": [
+    {
+      "id": "browser",
+      "type": "external",
+      "label": "Browser",
+      "sublabel": "用户",
+      "sources": [{ "path": "apps/client/src/entries/main.client.tsx", "line": 13, "end_line": 25, "label": "hydrate" }]
+    },
+    {
+      "id": "mw",
+      "type": "security",
+      "label": "Middleware",
+      "sublabel": "auth + MF",
+      "sources": [{ "path": "apps/server/src/middlewares/middleware.module.ts", "line": 15, "end_line": 18, "label": "configure" }]
+    },
+    {
+      "id": "ctrl",
+      "type": "backend",
+      "label": "SsrCtrl",
+      "sublabel": "ALL /*",
+      "sources": [{ "path": "apps/server/src/modules/ssr/ssr.controller.ts", "line": 21, "end_line": 29, "label": "page" }]
+    },
+    {
+      "id": "page",
+      "type": "backend",
+      "label": "PageRender",
+      "sublabel": "Service",
+      "sources": [{ "path": "apps/server/src/modules/ssr/render/page-render.service.ts", "line": 38, "end_line": 56, "label": "renderDocument" }]
+    },
+    {
+      "id": "guard",
+      "type": "security",
+      "label": "Guards",
+      "sublabel": "SpaPath",
+      "sources": [{ "path": "apps/server/src/modules/ssr/render/guards/spa-path.guard.ts", "line": 14, "end_line": 36, "label": "canActivate" }]
+    },
+    {
+      "id": "asset",
+      "type": "backend",
+      "label": "Asset",
+      "sublabel": "无 Repository",
+      "sources": [{ "path": "apps/server/src/modules/ssr/assets/asset.service.ts", "line": 21, "end_line": 24, "label": "getClientScripts" }]
+    },
+    {
+      "id": "stream",
+      "type": "backend",
+      "label": "Stream",
+      "sublabel": "Loader",
+      "sources": [{ "path": "apps/server/src/modules/ssr/render/strategies/stream-document.strategy.ts", "line": 21, "end_line": 34, "label": "execute" }]
+    },
+    {
+      "id": "react",
+      "type": "frontend",
+      "label": "ReactSSR",
+      "sublabel": "pipeDocument",
+      "sources": [{ "path": "apps/client/src/entries/main.server.tsx", "line": 51, "end_line": 61, "label": "pipeDocument" }]
+    }
+  ],
+  "segments": [
+    { "from": 150, "to": 250, "label": "Ingress" },
+    { "from": 260, "to": 420, "label": "Guard + Enrich" },
+    { "from": 430, "to": 590, "label": "Stream + hydrate" }
+  ],
+  "messages": [
+    {
+      "id": "open",
+      "from": "browser",
+      "to": "mw",
+      "y": 160,
+      "label": "GET /about",
+      "variant": "emphasis",
+      "note": "可带 x-demo-role"
+    },
+    {
+      "id": "auth-locals",
+      "from": "mw",
+      "to": "ctrl",
+      "y": 204,
+      "label": "locals.renderAuth",
+      "variant": "security"
+    },
+    {
+      "id": "delegate",
+      "from": "ctrl",
+      "to": "page",
+      "y": 232,
+      "label": "renderDocument",
+      "variant": "emphasis",
+      "note": "排除 /api 与 /static"
+    },
+    {
+      "id": "guard-call",
+      "from": "page",
+      "to": "guard",
+      "y": 280,
+      "label": "canActivate",
+      "variant": "security",
+      "note": "无 about:read 则 403 结束"
+    },
+    {
+      "id": "guard-ok",
+      "from": "guard",
+      "to": "page",
+      "y": 338,
+      "label": "allow",
+      "variant": "return"
+    },
+    {
+      "id": "scripts",
+      "from": "page",
+      "to": "asset",
+      "y": 366,
+      "label": "getClientScripts",
+      "variant": "default"
+    },
+    {
+      "id": "script-tags",
+      "from": "asset",
+      "to": "page",
+      "y": 394,
+      "label": "scriptTags",
+      "variant": "return"
+    },
+    {
+      "id": "execute",
+      "from": "page",
+      "to": "stream",
+      "y": 444,
+      "label": "execute",
+      "variant": "emphasis"
+    },
+    {
+      "id": "pipe",
+      "from": "stream",
+      "to": "react",
+      "y": 472,
+      "label": "pipeDocument",
+      "variant": "emphasis",
+      "note": "动态 import ssr.mjs"
+    },
+    {
+      "id": "html",
+      "from": "react",
+      "to": "browser",
+      "y": 528,
+      "label": "chunked HTML",
+      "variant": "return"
+    },
+    {
+      "id": "hydrate",
+      "from": "browser",
+      "to": "react",
+      "y": 556,
+      "label": "hydrateRoot",
+      "variant": "dashed"
+    }
+  ],
+  "activations": [
+    { "participant": "mw", "from": 160, "to": 214, "type": "security" },
+    { "participant": "ctrl", "from": 204, "to": 250, "type": "backend" },
+    { "participant": "page", "from": 232, "to": 462, "type": "backend" },
+    { "participant": "guard", "from": 275, "to": 344, "type": "security" },
+    { "participant": "asset", "from": 361, "to": 400, "type": "backend" },
+    { "participant": "stream", "from": 439, "to": 536, "type": "backend" },
+    { "participant": "react", "from": 467, "to": 566, "type": "frontend" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "structx 已证实",
+      "items": [
+        "ALL /* → SsrController.page → PageRenderService.renderDocument → matchPage",
+        "renderDocument 调用 guard.canActivate、enricher.enrich、streamStrategy.execute",
+        "execute 调用 loader.getRenderer 与 renderer.pipeDocument（动态 bundle，图中未解析到函数 id）"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "没有 Repository",
+      "items": [
+        "HealthController 无 Service",
+        "I/O 在 AssetService（manifest）与 RendererLoader（ssr.mjs）",
+        "客户端无独立请求层，hooks/ 为空，状态来自 __SSR_STATE__"
+      ]
+    }
+  ]
+}

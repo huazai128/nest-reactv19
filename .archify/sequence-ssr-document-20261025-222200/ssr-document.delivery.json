@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d8135fb6-ca77-419c-99e0-92c26d984c17",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/sequence-ssr-document-20261025-222200/candidate.json",
+  "output": "/Users/zhouweihua/Downloads/DM/nest-reactv19/.archify/sequence-ssr-document-20261025-222200/ssr-document.html",
+  "specification": {
+    "sha256": "49911a47c69757c4a7b8cf66128cd1f037402b8b8d6ccb8c6923ffa227f49ab8",
+    "bytes": 5802
+  },
+  "artifact": {
+    "sha256": "c9454d177b9d7f2d648a520e3062046c40b11857d48606fec6cffe66128c6bc5",
+    "bytes": 824532
+  }
+}

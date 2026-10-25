@@ -3,7 +3,8 @@
 面向排查与扩展的说明。运行命令见 [LOCAL-RUN.md](./LOCAL-RUN.md)、[REFERENCE-OPEN-PLATFORM.md](./REFERENCE-OPEN-PLATFORM.md)。概览见 [README.md](../README.md)。  
 AI 或人工修改基础架构时请遵循 [.cursor/skills/nest-reactv19-architecture/SKILL.md](../.cursor/skills/nest-reactv19-architecture/SKILL.md)。  
 **所有架构文件须有 `@module` 头块注释（见 Skill §0）；无备注视为改动未完成。**  
-AI 协作：每次回复须含 **Git 提交说明**（见 Skill §5.1）、[AGENTS.md](../AGENTS.md)。
+AI 协作：每次回复须含 **Git 提交说明**（见 Skill §5.1）、[AGENTS.md](../AGENTS.md)。  
+调用链路、反模式与 Mermaid 归档见 [ARCHITECTURE-GRAPH.md](./ARCHITECTURE-GRAPH.md)；可编辑 draw.io 大图见 [diagrams/ssr-architecture.drawio](./diagrams/ssr-architecture.drawio)。
 
 ## 1. 总览
 
@@ -97,6 +98,12 @@ Enricher：
 - **样式**：`builtin:lightningcss-loader`（`createCssRule`）；生产 client 叠加 `LightningCssMinimizerRspackPlugin`；`browserTargets` / `browserslist` 在 `rspack.shared.mjs`
 
 ## 7. 变更记录
+
+### 2026-10-25 — MCP 工具链 + 架构图归档
+
+- **动机**：用 structx 解析调用图，用 archify / draw.io 产出可交互与可编辑架构图，并把 Mermaid 归档进文档
+- **影响**：新增 `.cursor/mcp.json`（structx、drawio-mcp、drawio 托管端）；图与反模式见 [ARCHITECTURE-GRAPH.md](./ARCHITECTURE-GRAPH.md)
+- **排查**：Cursor 需重载 MCP 后 structx / drawio 工具才出现；archify 是 Skill（`~/.agents/skills/archify`），不是 MCP
 
 ### 2026-10-15 — server 源码目录对齐 marki-info
 

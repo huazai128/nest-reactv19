@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "structx": {
+      "command": "${userHome}/.nvm/versions/node/v24.14.0/bin/structx",
+      "args": ["mcp", "--repo", "${workspaceFolder}"]
+    },
+    "drawio-mcp": {
+      "command": "npx",
+      "args": ["-y", "@drawio/mcp"]
+    },
+    "drawio": {
+      "url": "https://mcp.draw.io/mcp"
+    }
+  }
+}

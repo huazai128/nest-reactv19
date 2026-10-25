@@ -7,3 +7,4 @@ apps/client/src/styles/bundle.css
 .DS_Store
 coverage
 .turbo
+.structx/

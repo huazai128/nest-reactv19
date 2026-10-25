@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "nest-reactv19 SSR 宿主架构",
+    "locale": "zh-CN",
+    "output": ".archify/architecture-ssr-host-20261025-222200/ssr-host.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/huazai128/nest-reactv19.git",
+      "provider": "github",
+      "revision": "8a2b73ce9498d1a831f4e017d417f0380bde5b24"
+    },
+    "views": [
+      {
+        "id": "ssr-pipeline",
+        "label": "SSR 管道",
+        "focus": ["ctrl", "page", "guards", "enrich", "stream", "loader"],
+        "note": "Guard → Enricher → Strategy → Loader"
+      },
+      {
+        "id": "client-hydrate",
+        "label": "客户端水合",
+        "focus": ["ssr", "spa", "stores", "mf"],
+        "note": "pipeDocument 后 hydrate 与 MF"
+      },
+      {
+        "id": "contract",
+        "label": "共享契约",
+        "focus": ["shared", "page", "ssr"],
+        "note": "matchPage 前后端共用"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "browser",
+      "type": "external",
+      "label": "Browser",
+      "sublabel": "用户会话",
+      "pos": [40, 50],
+      "size": [140, 60],
+      "sources": [{ "path": "apps/client/src/entries/main.client.tsx", "line": 1, "end_line": 25, "label": "hydrateRoot" }]
+    },
+    {
+      "id": "nest",
+      "type": "backend",
+      "label": "Nest HTTP",
+      "sublabel": ":3008 bootstrap",
+      "pos": [250, 50],
+      "size": [150, 60],
+      "sources": [{ "path": "apps/server/src/main.ts", "line": 13, "end_line": 27, "label": "listen 3008" }]
+    },
+    {
+      "id": "mw",
+      "type": "security",
+      "label": "Middleware",
+      "sublabel": "x-demo-role / MF",
+      "pos": [480, 50],
+      "size": [160, 64],
+      "sources": [
+        { "path": "apps/server/src/middlewares/middleware.module.ts", "line": 14, "end_line": 19, "label": "forRoutes *" },
+        { "path": "apps/server/src/middlewares/request-context/request-context.middleware.ts", "line": 21, "end_line": 26, "label": "renderAuth" }
+      ]
+    },
+    {
+      "id": "ctrl",
+      "type": "backend",
+      "label": "SsrController",
+      "sublabel": "ALL /*",
+      "pos": [720, 50],
+      "size": [170, 60],
+      "sources": [{ "path": "apps/server/src/modules/ssr/ssr.controller.ts", "line": 15, "end_line": 29, "label": "page()" }]
+    },
+    {
+      "id": "health",
+      "type": "backend",
+      "label": "HealthController",
+      "sublabel": "GET /api/health",
+      "pos": [250, 210],
+      "size": [150, 60],
+      "sources": [{ "path": "apps/server/src/modules/health/health.controller.ts", "line": 8, "end_line": 14, "label": "health()" }]
+    },
+    {
+      "id": "guards",
+      "type": "security",
+      "label": "RenderGuards",
+      "sublabel": "SpaPath / Access",
+      "pos": [480, 210],
+      "size": [160, 64],
+      "sources": [
+        { "path": "apps/server/src/modules/ssr/render/guards/spa-path.guard.ts", "line": 14, "end_line": 36, "label": "/about" },
+        { "path": "apps/server/src/modules/ssr/ssr.module.ts", "line": 33, "end_line": 37, "label": "RENDER_GUARDS" }
+      ]
+    },
+    {
+      "id": "page",
+      "type": "backend",
+      "label": "PageRenderService",
+      "sublabel": "编排文档流",
+      "pos": [720, 210],
+      "size": [170, 64],
+      "sources": [{ "path": "apps/server/src/modules/ssr/render/page-render.service.ts", "line": 38, "end_line": 63, "label": "renderDocument" }]
+    },
+    {
+      "id": "shared",
+      "type": "backend",
+      "label": "@app/shared",
+      "sublabel": "matchPage 契约",
+      "pos": [1000, 210],
+      "size": [170, 64],
+      "sources": [{ "path": "packages/shared/src/routing.ts", "line": 35, "end_line": 70, "label": "PAGE_ROUTES" }]
+    },
+    {
+      "id": "assets",
+      "type": "backend",
+      "label": "AssetService",
+      "sublabel": "manifest 适配器",
+      "tag": "无 DB",
+      "pos": [250, 380],
+      "size": [150, 60],
+      "sources": [{ "path": "apps/server/src/modules/ssr/assets/asset.service.ts", "line": 21, "end_line": 54, "label": "getClientScripts" }]
+    },
+    {
+      "id": "enrich",
+      "type": "backend",
+      "label": "Enrichers",
+      "sublabel": "MF / script / state",
+      "pos": [480, 380],
+      "size": [160, 60],
+      "sources": [
+        { "path": "apps/server/src/modules/ssr/render/enrichers/asset-script.enricher.ts", "line": 16, "end_line": 18, "label": "scriptTags" },
+        { "path": "apps/server/src/modules/ssr/render/enrichers/server-state.enricher.ts", "line": 14, "end_line": 19, "label": "statePatch" }
+      ]
+    },
+    {
+      "id": "stream",
+      "type": "backend",
+      "label": "StreamStrategy",
+      "sublabel": "chunked HTML",
+      "pos": [720, 380],
+      "size": [170, 60],
+      "sources": [{ "path": "apps/server/src/modules/ssr/render/strategies/stream-document.strategy.ts", "line": 21, "end_line": 35, "label": "execute" }]
+    },
+    {
+      "id": "ssr",
+      "type": "frontend",
+      "label": "pipeDocument",
+      "sublabel": "ssr.mjs React 流",
+      "pos": [1000, 380],
+      "size": [170, 64],
+      "sources": [{ "path": "apps/client/src/entries/main.server.tsx", "line": 51, "end_line": 90, "label": "pipeDocument" }]
+    },
+    {
+      "id": "loader",
+      "type": "backend",
+      "label": "RendererLoader",
+      "sublabel": "动态 import ssr.mjs",
+      "tag": "无 DB",
+      "pos": [720, 540],
+      "size": [170, 64],
+      "sources": [{ "path": "apps/server/src/modules/ssr/render/renderer/renderer.loader.ts", "line": 36, "end_line": 73, "label": "bundlePath" }]
+    },
+    {
+      "id": "spa",
+      "type": "frontend",
+      "label": "SpaRoot",
+      "sublabel": "页面 / 路由 / MF",
+      "pos": [1000, 540],
+      "size": [170, 60],
+      "sources": [
+        { "path": "apps/client/src/routes/SpaRoot.tsx", "line": 11, "end_line": 34, "label": "SpaRoot" },
+        { "path": "apps/client/src/render/createPageTree.tsx", "line": 12, "end_line": 24, "label": "createPageTree" }
+      ]
+    },
+    {
+      "id": "mf",
+      "type": "cloud",
+      "label": "remote-demo",
+      "sublabel": "MF :3101 Button",
+      "pos": [720, 700],
+      "size": [170, 64],
+      "sources": [{ "path": "apps/client/src/components/RemoteWidget.tsx", "line": 3, "end_line": 35, "label": "lazy Button" }]
+    },
+    {
+      "id": "stores",
+      "type": "frontend",
+      "label": "Zustand hooks",
+      "sublabel": "SSR 快照 / UI",
+      "pos": [1000, 700],
+      "size": [170, 60],
+      "sources": [
+        { "path": "apps/client/src/stores/ssr-store.ts", "line": 24, "end_line": 59, "label": "hydrate + hooks" },
+        { "path": "apps/client/src/stores/ui-store.ts", "line": 23, "end_line": 30, "label": "UI selectors" }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "apps/server",
+      "wraps": ["nest", "mw", "ctrl", "health", "guards", "page", "assets", "enrich", "stream", "loader"]
+    },
+    {
+      "kind": "region",
+      "label": "apps/client",
+      "wraps": ["ssr", "spa", "stores"]
+    }
+  ],
+  "connections": [
+    { "id": "browser-nest", "from": "browser", "to": "nest", "label": "GET :3008", "variant": "emphasis" },
+    { "id": "nest-mw", "from": "nest", "to": "mw", "label": "forRoutes *" },
+    { "id": "mw-ctrl", "from": "mw", "to": "ctrl", "label": "locals" },
+    { "id": "nest-health", "from": "nest", "to": "health", "label": "/api/health", "variant": "dashed", "fromSide": "bottom", "toSide": "top" },
+    { "id": "ctrl-page", "from": "ctrl", "to": "page", "label": "renderDocument", "variant": "emphasis", "fromSide": "bottom", "toSide": "top" },
+    { "id": "page-guards", "from": "page", "to": "guards", "label": "canActivate", "variant": "security", "fromSide": "left", "toSide": "right" },
+    { "id": "page-enrich", "from": "page", "to": "enrich", "label": "enrich()", "fromSide": "bottom", "toSide": "top" },
+    { "id": "enrich-assets", "from": "enrich", "to": "assets", "label": "scripts", "fromSide": "left", "toSide": "right" },
+    { "id": "page-stream", "from": "page", "to": "stream", "label": "execute", "fromSide": "bottom", "toSide": "top" },
+    { "id": "stream-loader", "from": "stream", "to": "loader", "label": "getRenderer", "fromSide": "bottom", "toSide": "top" },
+    { "id": "loader-ssr", "from": "loader", "to": "ssr", "label": "pipeDocument", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "id": "page-shared", "from": "page", "to": "shared", "label": "matchPage", "fromSide": "right", "toSide": "left" },
+    { "id": "shared-ssr", "from": "shared", "to": "ssr", "label": "matchPage", "fromSide": "bottom", "toSide": "top" },
+    { "id": "ssr-spa", "from": "ssr", "to": "spa", "label": "createPageTree", "fromSide": "bottom", "toSide": "top" },
+    { "id": "spa-stores", "from": "spa", "to": "stores", "label": "useSsr*", "fromSide": "bottom", "toSide": "top" },
+    { "id": "spa-mf", "from": "spa", "to": "mf", "label": "lazy MF", "variant": "dashed", "fromSide": "left", "toSide": "right" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "主路径",
+      "items": [
+        "Browser → Nest:3008 → Middleware → SsrController → PageRenderService → StreamStrategy → RendererLoader → pipeDocument",
+        "structx：ALL /* → SsrController.page → renderDocument → matchPage / execute",
+        "本仓库没有 Repository / 数据库；AssetService 与 RendererLoader 是文件与 bundle 适配器"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "鉴权门",
+      "items": [
+        "RequestContextMiddleware 把 x-demo-role 写入 Locals.renderAuth",
+        "SpaPathGuard 硬编码 /about 需要 about:read；PageAccessGuard 读 PAGE_ROUTES.access（当前为空）",
+        "拒绝时 PageRenderService 直接 403，不再调用 Strategy"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "前端链路",
+      "items": [
+        "hooks/ 目录为空；页面订阅在 stores 的细粒度 selector",
+        "HomePage → SsrMetaToolbar / SsrMetaPanel → useSsrPageJson",
+        "RemoteWidget 仅客户端 lazy 加载 demo_remote/Button"
+      ]
+    }
+  ]
+}
